@@ -91,13 +91,15 @@ function addPkgDeps(baseDir, pkg, pkgs, callback)
     }
 
     for (var pkgName in pkgContent.dependencies)
-    {
-        var version = pkgContent.dependencies[pkgName];
-        var depPkg = {name: pkgName, version: version};
-        addPkgDeps(g_opts.srcDir, depPkg, pkgs, callback);
-        addPkgDeps(pkgDir, depPkg, pkgs, callback);
+    {   
+        if (!(pkgName.startsWith("@switches") || pkgName.startsWith("@lifecycles") || pkgName.startsWith("@rollingcode")) {
+            var version = pkgContent.dependencies[pkgName];
+            var depPkg = {name: pkgName, version: version};
+            addPkgDeps(g_opts.srcDir, depPkg, pkgs, callback);
+            addPkgDeps(pkgDir, depPkg, pkgs, callback);
+        }
+        
     }
-
 
 }
 
