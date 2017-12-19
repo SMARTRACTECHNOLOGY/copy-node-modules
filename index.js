@@ -91,15 +91,13 @@ function addPkgDeps(baseDir, pkg, pkgs, callback)
     }
 
     for (var pkgName in pkgContent.dependencies)
-    {   
-        if (!(pkgName.startsWith("@switches") || pkgName.startsWith("@lifecycles") || pkgName.startsWith("@rollingcode"))) {
-            var version = pkgContent.dependencies[pkgName];
-            var depPkg = {name: pkgName, version: version};
-            addPkgDeps(g_opts.srcDir, depPkg, pkgs, callback);
-            addPkgDeps(pkgDir, depPkg, pkgs, callback);
-        }
-        
+    {
+        var version = pkgContent.dependencies[pkgName];
+        var depPkg = {name: pkgName, version: version};
+        addPkgDeps(g_opts.srcDir, depPkg, pkgs, callback);
+        addPkgDeps(pkgDir, depPkg, pkgs, callback);
     }
+
 
 }
 
@@ -150,8 +148,11 @@ function copyNodeModules(srcDir, dstDir, opts, callback)
 
     // prepare root package list
     var rootPkgList = [];
-    for (var depPkgName in pkgContent.dependencies)
-        rootPkgList.push({name: depPkgName, version: pkgContent.dependencies[depPkgName]});
+    for (var depPkgName in pkgContent.dependencies) {
+        if (!(depPkgName.startsWith("@switches") || depPkgName.startsWith("@lifecycles") || depPkgName.startsWith("@rollingcode"))) {
+            rootPkgList.push({name: depPkgName, version: pkgContent.dependencies[depPkgName]});
+        }
+    }        
 
     if (g_opts.devDependencies)
     {
