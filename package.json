@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arloliu/copy-node-modules"
+    "url": "git+ssh://git@github.com/SMARTRACTECHNOLOGY/copy-node-modules.git#master"
   },
   "bin": {
     "copy-node-modules": "./bin/copy-node-modules.js"
